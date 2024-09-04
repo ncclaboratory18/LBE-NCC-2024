@@ -10,7 +10,7 @@ Cloud merupakan simbol atau perumpamaan dari internet, sedangkan computing berar
 - **Hybrid** : Menggabungkan model penerapan cloud dan on-premise. Misalnya: Front-End (web layer) di-hosting di AWS. Back-End (API dan Database) dijalankan dari data center pribadi. Keduanya dihubungkan melalui jaringan pribadi: AWS VPN (via internet) atau AWS Direct Connect (via dedicated fiber cable).
 
 ## Pengenalan AWS
-AWS (Amazon Web Services) adalah platform layanan cloud yang disediakan oleh Amazon, yang menawarkan berbagai layanan komputasi seperti penyimpanan data, server virtual, database, jaringan, dll. Dengan fleksibilitas, keamanan, dan skalabilitasnya, AWS memungkinkan client membangun dan menjalankan aplikasi tanpa harus mengelola infrastruktur fisik, serta membayar hanya sesuai dengan penggunaan (pay-as-you-go).
+AWS (Amazon Web Services) adalah platform layanan cloud yang disediakan oleh Amazon, yang menawarkan berbagai layanan komputasi seperti penyimpanan data, server virtual, database, jaringan, analisis data, kecerdasan buatan, IoT, hingga layanan satelit. Dengan fleksibilitas, keamanan, dan skalabilitasnya, AWS memungkinkan client membangun dan menjalankan aplikasi tanpa harus mengelola infrastruktur fisik, serta membayar hanya sesuai dengan penggunaan (pay-as-you-go).
 
 **Dulu vs Sekarang**
 - Sebelum hadirnya cloud computing, perusahaan harus membangun data center sendiri untuk membuat sebuah aplikasi.
