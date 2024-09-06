@@ -209,7 +209,107 @@ Layanan Amazon RDS hadir dengan berbagai fitur, termasuk:
 - Encryption in-transit (enkripsi data saat sedang dikirim dan diterima).
   
 ### Amazon DynamoDB
+Selain database relasional atau yang bisa disebut sebagai database SQL, ada juga sebuah konsep yang menerapkan database nonrelasional atau NoSQL. Amazon DynamoDB memungkinkan kita membuat sebuah database NoSQL dan menggunakan jenis pendekatan pasangan key-value. 
+
+Dengan Amazon DynamoDB, kita dapat membuat tabel, yakni tempat menyimpan dan membuat kueri data. Data diatur menjadi item/key dan item memiliki atribut/value. kita dapat menambah dan menghapus atribut dari item di dalam tabel kapan pun. Setiap item tidak harus memiliki atribut yang sama. Sehingga, ini akan sangat baik untuk kumpulan data yang memiliki beberapa variasi antara satu item dengan item lainnya.
+
+Berikut adalah contoh sederhana dari tabel database nonrelasional.
+
+![image](https://github.com/user-attachments/assets/d3239bd8-4728-4622-95a8-ea9f71161553)
+
+Amazon DynamoDB ini adalah layanan yang terkelola sepenuhnya dan merupakan database serverless (tanpa server). Itu artinya kita tak perlu mengelola instance atau infrastruktur dasarnya. Selain itu, Amazon DynamoDB juga menyimpan data di beberapa perangkat di seluruh availability zone. Sehingga, ini menjadikannya database yang highly available (sangat tersedia). Layanan ini memiliki kinerja yang sangat tinggi. Ia punya response time (waktu respons) kilat, yakni milidetik, yang akan sangat bermanfaat untuk aplikasi dengan potensi jutaan pengguna.
+
 ### Amazon Redshift
+Amazon Redshift adalah layanan data warehousing yang dapat kita gunakan untuk analitik big data. Layanan ini menawarkan kemampuan untuk mengumpulkan data dari banyak sumber dan membantu kita memahami hubungan dan tren di seluruh data. Selain itu, Amazon Redshift juga dapat diskalakan secara masif.
+
+Amazon Redshift ini bukan hanya sekadar mampu menangani data set (kumpulan data) yang sangat besar, melainkan juga dapat mencapai kinerja hingga 10 kali lebih tinggi daripada database tradisional dalam hal beban kerja business intelligence.
+
 ### AWS Database Migration Service
+“Bagaimana kalau kita sudah punya database di on-premise atau mungkin di platform lain? Apa itu berarti kita harus memulai dari awal?”
+
+Tenang, AWS menyediakan layanan AWS Database Migration Service (AWS DMS) yang dapat memigrasikan database yang kita miliki, baik relasional, nonrelasional (NoSQL), atau tipe penyimpanan data lain ke AWS dengan mudah dan aman. 
+
+Migrase database dapat dilakukan pada database yang bertipe sama maupun tidak bertipe sama. Contoh migrasi database yang bertipe sama:
+- MySQL ke Amazon RDS for MySQL.
+- Microsoft SQL Server ke Amazon RDS for SQL Server.
+- Bahkan, Oracle ke Amazon RDS for Oracle.
+
+Pada migrasi database bertipe sama, kita hanya perlu menggunakan Amazon DMS untuk migrasi data. Sedangkan pada migrasi database bertipe beda, kita perlu menggunakan AWS Schema Conversion Tool untuk mengubah tipe database sumber menjadi sesuai dengan database target sebelum menggunakan Amazon DMS.
+
+Selain dari yang dijelaskan di atas, AWS DMS juga dapat digunakan untuk:
+- Migrasi ke database pengembangan dan pengujian
+- Menggabungkan beberapa database menjadi satu database pusat
+- Replikasi database berkelanjutan
+
+### Database Tambahan
+- Amazon DocumentDB
+- Amazon Neptune
+- Amazon Managed Blockchain
+- Amazon Quantum Ledger Database (Amazon QLDB)
+- Amazon ElastiChace
+- Amazon DynamoDB Accelerator (DAX)
 
 ## Launch VM di AWS
+Sebelum memulai penjelasan tentang cara launching virtual machine (VM) atau instance di AWS, kami menyarankan kalian untuk mengaktifkan free-tier AWS agar dapat mengakses layanan yang dibutuhkan secara gratis. Kalian bisa mengaksesnya pada laman berikut https://aws.amazon.com/free
+
+![image](https://github.com/user-attachments/assets/6181f5b6-0643-43ef-b2ac-37a9d7392398)
+
+Pilih "Create Free Account" dan ikuti semua instruksinya, termasuk mengisi informasi kartu kredit atau debit. Setelah semua proses pendaftarana akun selesai, masuk ke konsol AWS.
+
+Pada kesempatan kali ini, kita akan melakukan launching VM menggunakan layanan instance EC2. Pilih layanan **Compute** pada **Services**, lalu pilih **EC2**
+![image](https://github.com/user-attachments/assets/1bd357bb-1bfe-447c-bad7-c8537cab8345)
+
+Selanjutnya, kita akan membuat sebuah instance baru dengan melakukan Launch Instance. Kalian dapat memilih tombol **Launch Instance** yang tersedia pada EC2 Dashboard atau memilih halaman **Instance** terlebih dahulu, lalu memilih tombol **Launch Instance** di pojok kanan atas.
+
+Atur konfigurasi instance
+- **Nama Instance dan Tag**
+  ![image](https://github.com/user-attachments/assets/724c37cb-ec57-4378-9bbd-61e90656a7f1)
+
+  Tag adalah label yang kita tetapkan ke sumber daya AWS. Setiap tag terdiri dari kunci dan nilai opsional, dan keduanya dapat kita tetapkan.
+  ![image](https://github.com/user-attachments/assets/2355b470-4bb8-4275-9ba3-18f44b9a2381)
+
+
+- **Application dan OS Images (Amazon Machine Image)**
+<br>AMI berisi konfigurasi perangkat lunak (sistem operasi (OS), server aplikasi, dan aplikasi) yang diperlukan untuk meluncurkan instance.
+Katalog AMI berisi aplikasi dan image OS yang disusun sebagai berikut
+  ![image](https://github.com/user-attachments/assets/834bb5db-5ae4-4faf-93e9-a46054bb168c)
+
+- **Instance Type**
+<br>Pilih jenis instance yang memenuhi kebutuhan komputasi, memori, jaringan, atau penyimpanan.
+  ![image](https://github.com/user-attachments/assets/6b03ef85-d3c8-4b38-8dda-e1fe07f3d66d)
+
+- **Key Pair**
+<br> Key pair digunakan untuk memastikan instance diakses dengan aman.
+  ![image](https://github.com/user-attachments/assets/345ce75a-0875-4253-a746-7fa1e722954d)
+
+  Menambahkan key pair baru
+  
+  ![image](https://github.com/user-attachments/assets/90f3ed6c-3a13-402b-8fba-8c96729aa5df)
+
+- **Network Settings**
+  - Network : VPC tempat meluncurkan instance
+  - Subnet : Subnet yang digunakan untuk menempatkan antarmuka jaringan
+  - Public IP : Ketika statusnya Enable, maka instance akan memiliki public IP ketika dibuat
+  - Firewall / Security Group : Sekumpulan aturan yang mengontrol lalu lintas jaringan yang masuk ke dan keluar dari instance
+
+- **Storage**
+<br>Mengatur spesifikasi penyimpanan yang menempel pada instance.
+  ![image](https://github.com/user-attachments/assets/a0b88640-4dc2-498c-9971-0543923db37e)
+
+Setelah semua hal diatur sesuai kebutuhan, pilih tombol Launch Instance untuk memulai proses pembuatan instance. Kita juga dapat mengatur berapa instance yang akan dibuat.
+
+Setelah proses pembuatan instance selesai, buka halaman Instance untuk melihat daftar instance yang sudah dibuat. Pastikan Instance State dalam keadaan "Running" dan instance memiliki public IP. Jika Instance State tidak dalam kedaan "Running", pilih instance yang akan diaktifkan kemudian pilih dropdown "Instance State" yang ada di bagian atas halaman Instance, lalu pilih "Start Instance".
+
+Salah satu cara untuk memastikan instance sudah berhasil dibuat adalah dengan melakukan perintah "ping (public ip)" melalui terminal komputer kita. Namun jika kita coba perintah ping sekarang, respon yang didapatkan masih belum sesuai dengan konsep yang seharusnya. Hal ini belum tentu karena kita gagal membuat instance, melainkan kita perlu menambahkan firewall atau rule terkait ping pada instance yang kita buat.
+
+Untuk menambahkan firewall terkait ping, kita pilih instance dengan nama instance yang ingin kita ping. Lalu pilih section **Security** dari instance tersebut dan pilih nama security group yang sudah tersedia di instance tersebut. Dengan begitu, kita sekarang berada di halaman untuk edit security group. Pada bagian **Inbound Rule**, pilih **Edit Inbound Rule**, kemudian pilih **Add rule**. Atur spesifikasi rule baru seperti berikut. Kemudian pilih **Save rule**
+
+![image](https://github.com/user-attachments/assets/d3d9c1e9-90ef-43d6-a367-b5a42222acfa)
+
+Sekarang, kita coba ping public ip instance melalui terminal komputer kita.
+![image](https://github.com/user-attachments/assets/57781124-e313-46f8-80f2-0cf60381acd9)
+
+Yeeey, kita berhasil memastikan instance telah berjalan dengan mengirim ping request ke public ip instance dan menerima balasan dari instance yang telah kita buat.
+
+Selanjutnya, kami ingin kalian juga mencoba membuat instance seperti di atas.
+
