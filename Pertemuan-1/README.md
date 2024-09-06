@@ -21,8 +21,121 @@ AWS (Amazon Web Services) adalah platform layanan cloud yang disediakan oleh Ama
     - Sewa bangunan, kebersihan, listrik, pendingin, dan keamanan.
 - Dengan AWS, Perusahaan dapat menggunakan server dan sumber daya IT lainnya yang ada di data center mereka dan cukup membayar penggunaan sumber daya sesuai pemakaian saja.
 
-## Layanan Komputasi 
-## Infrastruktur Global dan Keamanan
+## Layanan Komputasi AWS
+
+Amazon Web Services (AWS) menyediakan berbagai layanan komputasi yang memungkinkan kita untuk menjalankan aplikasi dengan skala yang fleksibel, menghemat biaya, dan menawarkan skalabilitas yang tinggi.
+
+### 1. Amazon EC2 (Elastic Compute Cloud)
+
+Amazon EC2 adalah layanan yang menyediakan instans server virtual yang sangat fleksibel, memungkinkan kita menjalankan aplikasi dengan kontrol penuh atas lingkungan komputasi. EC2 memberikan opsi konfigurasi untuk CPU, RAM, storage, dan jaringan sesuai kebutuhan aplikasi.
+
+**Fitur Utama:**
+- Pilihan tipe instans yang bervariasi.
+- Opsi auto-scaling dan elastic load balancing.
+- Integrasi dengan penyimpanan EBS (Elastic Block Store) dan penyimpanan objek S3.
+
+### 2. AWS Lambda
+
+AWS Lambda adalah layanan komputasi tanpa server (serverless) yang memungkinkan kita menjalankan kode berdasarkan event (peristiwa) tanpa harus memikirkan infrastruktur server di belakangnya. Anda hanya membayar berdasarkan jumlah permintaan dan durasi eksekusi kode.
+
+**Fitur Utama:**
+- Otomatis menskalakan sesuai permintaan.
+- Tidak ada biaya saat fungsi tidak berjalan.
+- Terintegrasi dengan layanan AWS lainnya seperti S3, DynamoDB, API Gateway, dll.
+
+### 3. Amazon ECS (Elastic Container Service)
+
+Amazon ECS adalah layanan manajemen container yang memungkinkan kita menjalankan aplikasi berbasis container (misalnya menggunakan Docker) di AWS. ECS menawarkan kendali penuh atas manajemen container serta orkestrasi dalam sebuah cluster.
+
+**Fitur Utama:**
+- Integrasi dengan Amazon EC2 atau AWS Fargate untuk menjalankan container.
+- Manajemen otomatis atas deployment, scaling, dan keamanan container.
+
+### 4. Amazon EKS (Elastic Kubernetes Service)
+
+Amazon EKS adalah layanan yang mengelola Kubernetes, platform open-source untuk mengelola container. EKS memungkinkan kita menjalankan dan mengelola aplikasi Kubernetes tanpa harus memelihara control plane Kubernetes.
+
+**Fitur Utama:**
+- Pengelolaan Kubernetes yang fully managed.
+- Dukungan untuk lingkungan hybrid dan multicloud.
+- Terintegrasi dengan layanan AWS lainnya untuk keamanan, storage, dan networking.
+
+### 5. AWS Fargate
+
+AWS Fargate adalah mesin komputasi tanpa server untuk container. Fargate digunakan dengan ECS dan EKS, memungkinkan kita menjalankan container tanpa harus mengelola server atau cluster.
+
+**Fitur Utama:**
+- Menghilangkan kebutuhan untuk mengelola infrastruktur server.
+- Secara otomatis menskalakan container sesuai kebutuhan.
+- Aman dan diisolasi di tingkat task.
+
+### Layanan Lainnya
+
+AWS juga menyediakan beberapa layanan lainnya seperti:
+- AWS Elastic Beanstalk
+- Amazon Lightsail
+- AWS Outposts
+- Amazon Batch
+
+---
+
+## Infrastruktur Global dan Keandalan
+
+![INFRASTRUCTURE](https://d17ivq9b7rppb3.cloudfront.net/original/academy/202107061342401b5e811e680eae7610f8cd8b73671623.jpeg)
+
+
+Gambar di atas menunjukkan konsep high availability dan fault tolerance yang AWS terapkan dalam menjalankan industrinya.
+
+### AWS Regions
+
+AWS Regions adalah wilayah geografis yang terdiri dari beberapa data center terisolasi yang disebut Availability Zones (AZ). Setiap Region memiliki beberapa AZ untuk menyediakan high availability dan disaster recovery.
+
+Setiap Region terisolasi dari Region lain, dan data tidak akan berpindah antar Region kecuali diizinkan secara eksplisit, menjaga kedaulatan data.
+
+**Faktor Utama Memilih Region**
+- Compliance (Kepatuhan): Mengikuti aturan hukum setempat terkait penyimpanan data.
+- Proximity (Kedekatan): Memilih Region terdekat dengan pelanggan untuk mengurangi latensi.
+
+- Feature Availability (Ketersediaan Fitur): Beberapa fitur mungkin hanya tersedia di Region tertentu.
+- Pricing (Harga): Biaya bervariasi antar Region karena faktor lokal, seperti pajak.
+
+## AWS Edge Locations
+
+![AWS Service Diagram](https://d17ivq9b7rppb3.cloudfront.net/original/academy/202102231027450a7c65887c2a444c9f288da89a78337c.png)
+
+
+Edge Locations digunakan oleh Amazon CloudFront sebagai cache yang menyimpan data lebih dekat dengan pelanggan, yang membantu mempercepat pengiriman konten dan mengurangi latensi.
+
+## Berinteraksi dengan Layanan AWS
+
+AWS menyediakan berbagai alat untuk berinteraksi dan mengelola layanan cloud-nya. Berikut adalah beberapa alat yang paling umum digunakan:
+
+### 1. AWS Management Console
+
+Antarmuka berbasis browser yang memungkinkan Anda mengelola layanan AWS secara visual.
+
+**Fitur Utama:**
+- Mencari layanan dengan mudah.
+- Membangun lingkungan pengujian.
+- Melihat tagihan dan biaya.
+- Memantau sumber daya AWS.
+- Tersedia aplikasi mobile untuk pemantauan dan penagihan.
+
+### 2. AWS Command Line Interface (CLI)
+
+Alat berbasis baris perintah yang memungkinkan Anda mengelola layanan AWS secara otomatis dengan skrip. Sangat cocok untuk lingkungan produksi karena mengurangi risiko human error dan memungkinkan tugas-tugas dijalankan secara berulang tanpa perlu interaksi manual.
+
+### 3. AWS Elastic Beanstalk
+
+Layanan managed yang membantu penyediaan dan pengelolaan lingkungan berbasis Amazon EC2. AWS Elastic Beanstalk mengotomatisasi pembuatan infrastruktur, termasuk jaringan, instance, dan load balancing, sehingga Anda bisa lebih fokus pada pengembangan aplikasi tanpa harus menggunakan AWS Management Console atau CLI.
+
+**Fitur Utama:**
+- Otomatisasi penuh dari provisioning hingga pengelolaan infrastruktur.
+- Fokus pada pengembangan aplikasi tanpa perlu memikirkan manajemen infrastruktur.
+
+---
+
+Dengan menggunakan alat-alat ini, AWS membantu pengguna untuk mengelola dan menjalankan aplikasi mereka di cloud dengan lebih efisien dan efektif.
 ## Layanan Penyimpanan
 ### Instance Store
 Instance store adalah penyimpanan block-level storage sementara untuk Amazon EC2 instance. Ketika meluncurkan (launching) EC2 instance, ada kalanya sudah tersedia penyimpanan lokal alias instance store volume di dalamnya. Namun, hal ini tergantung tipe EC2 instance yang dipilih.
