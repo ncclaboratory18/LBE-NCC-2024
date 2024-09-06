@@ -81,8 +81,7 @@ AWS juga menyediakan beberapa layanan lainnya seperti:
 
 ## Infrastruktur Global dan Keandalan
 
-![INFRASTRUCTURE](https://d17ivq9b7rppb3.cloudfront.net/original/academy/202107061342401b5e811e680eae7610f8cd8b73671623.jpeg)
-
+![image](https://github.com/user-attachments/assets/7c47be9f-2476-44c8-8caa-933b0323caff)
 
 Gambar di atas menunjukkan konsep high availability dan fault tolerance yang AWS terapkan dalam menjalankan industrinya.
 
@@ -101,8 +100,7 @@ Setiap Region terisolasi dari Region lain, dan data tidak akan berpindah antar R
 
 ## AWS Edge Locations
 
-![AWS Service Diagram](https://d17ivq9b7rppb3.cloudfront.net/original/academy/202102231027450a7c65887c2a444c9f288da89a78337c.png)
-
+![image](https://github.com/user-attachments/assets/7ae7e990-a706-4b77-b246-e0eb8df35318)
 
 Edge Locations digunakan oleh Amazon CloudFront sebagai cache yang menyimpan data lebih dekat dengan pelanggan, yang membantu mempercepat pengiriman konten dan mengurangi latensi.
 
