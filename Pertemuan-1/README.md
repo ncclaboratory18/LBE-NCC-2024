@@ -300,6 +300,8 @@ Setelah semua hal diatur sesuai kebutuhan, pilih tombol Launch Instance untuk me
 
 Setelah proses pembuatan instance selesai, buka halaman Instance untuk melihat daftar instance yang sudah dibuat. Pastikan Instance State dalam keadaan "Running" dan instance memiliki public IP. Jika Instance State tidak dalam kedaan "Running", pilih instance yang akan diaktifkan kemudian pilih dropdown "Instance State" yang ada di bagian atas halaman Instance, lalu pilih "Start Instance".
 
+![image](https://github.com/user-attachments/assets/455fa061-85cc-477b-a878-9f7fb540ec6f)
+
 Salah satu cara untuk memastikan instance sudah berhasil dibuat adalah dengan melakukan perintah "ping (public ip)" melalui terminal komputer kita. Namun jika kita coba perintah ping sekarang, respon yang didapatkan masih belum sesuai dengan konsep yang seharusnya. Hal ini belum tentu karena kita gagal membuat instance, melainkan kita perlu menambahkan firewall atau rule terkait ping pada instance yang kita buat.
 
 Untuk menambahkan firewall terkait ping, kita pilih instance dengan nama instance yang ingin kita ping. Lalu pilih section **Security** dari instance tersebut dan pilih nama security group yang sudah tersedia di instance tersebut. Dengan begitu, kita sekarang berada di halaman untuk edit security group. Pada bagian **Inbound Rule**, pilih **Edit Inbound Rule**, kemudian pilih **Add rule**. Atur spesifikasi rule baru seperti berikut. Kemudian pilih **Save rule**
