@@ -55,24 +55,48 @@ Amazon S3 mendukung fitur versioning yang memungkinkan kita tetap memiliki objek
 
 Beberapa kelas penyimpanan yang ada pada Amazon S3:
 - **S3 Standard**
-  data disimpan setidaknya di tiga data center. Sehingga, ini membuatnya dapat menawarkan high availability (ketersediaan tinggi) bagi objek.
+<br>Data disimpan setidaknya di tiga data center. Sehingga, ini membuatnya dapat menawarkan high availability (ketersediaan tinggi) bagi objek.
   
 - **S3 Standard-Infrequent Access (S3 Standard-IA)**
-  Kelas penyimpanan jenis ini digunakan untuk data yang jarang diakses tetapi membutuhkan proses cepat saat dibutuhkan. Artinya, opsi ini adalah tempat yang ideal untuk menyimpan backup (cadangan), disaster recovery file (file pemulihan bencana), atau objek apa pun yang memerlukan penyimpanan jangka panjang.
+<br>Kelas penyimpanan jenis ini digunakan untuk data yang jarang diakses tetapi membutuhkan proses cepat saat dibutuhkan. Artinya, opsi ini adalah tempat yang ideal untuk menyimpan backup (cadangan), disaster recovery file (file pemulihan bencana), atau objek apa pun yang memerlukan penyimpanan jangka panjang.
   
 - **S3 One Zone-Infrequent Access (S3 One Zone-IA)**
-  Kelas penyimpanan S3 One Zone-IA menyimpan data hanya di satu Availability Zone.
+<br>Kelas penyimpanan S3 One Zone-IA menyimpan data hanya di satu Availability Zone.
+
 - **S3 Intelligent-Tiering**
-  Pada kelas penyimpanan S3 Intelligent-Tiering, Amazon S3 memantau pola akses objek. Jika kita tidak pernah mengakses objek selama 30 hari berturut-turut, Amazon S3 akan memindahkannya secara otomatis dari S3 Standard ke S3 Standard-IA.
+<br>Pada kelas penyimpanan S3 Intelligent-Tiering, Amazon S3 memantau pola akses objek. Jika kita tidak pernah mengakses objek selama 30 hari berturut-turut, Amazon S3 akan memindahkannya secara otomatis dari S3 Standard ke S3 Standard-IA.
   
 - **S3 Glacier**
-  Kelas penyimpanan ini ideal untuk menyimpan data selama beberapa tahun untuk tujuan audit.
+<br>Kelas penyimpanan ini ideal untuk menyimpan data selama beberapa tahun untuk tujuan audit.
   
 - **S3 Glacier Deep Archive**
-  Kelas penyimpanan objek yang memiliki biaya terendah dan ideal untuk pengarsipan. Di S3 Glacier waktu pengaksesan suatu objek berlangsung beberapa menit hingga jam saja, sementara dengan S3 Glacier Deep Archive Anda memerlukan waktu 12 hingga 48 jam.
+<br>Kelas penyimpanan objek yang memiliki biaya terendah dan ideal untuk pengarsipan. Di S3 Glacier waktu pengaksesan suatu objek berlangsung beberapa menit hingga jam saja, sementara dengan S3 Glacier Deep Archive Anda memerlukan waktu 12 hingga 48 jam.
   
 ### Amazon Elastic File System (Amazon EFS)
+Amazon EFS merupakan layanan file storage atau sistem file terkelola yang bisa diskalakan dan dapat digunakan oleh layanan AWS Cloud. Dengan EFS, kita dapat memiliki beberapa instance yang mengakses data secara bersamaan. Ia akan melakukan scaling up dan scaling down, serta replikasi sesuai kebutuhan secara otomatis.
+
+Sebenarnya, kita juga dapat menggunakan Amazon EBS untuk menyimpan file. Namun, Amazon EBS hanya memungkinkan penyimpanan data hanya di satu Availability Zone (AZ). Sedangkan Amazon EFS dapat menyimpan data di beberapa Availability Zone (AZ) karena menerapkan konsep regional resource. Selain itu, Amazon EFS memungkinkan auto-scalling, yang tidak tersedia pada Amazon EBS.
+
 ### Amazon Relational Database Service (Amazon RDS)
+Adakalanya, kita membutuhkan pengelolaan data menggunakan relational database management system (RDBMS) alias sistem manajemen database/basis data relasional. Database relasional menggunakan structured query language (SQL) alias bahasa kueri terstruktur untuk menyimpan dan membuat kueri data.
+
+Layanan AWS yang mendukung database relasional adalah Amazon RDS. Amazon RDS adalah layanan yang terkelola dan mendukung 6 (enam) mesin database, di antaranya:
+- Amazon Aurora
+- PostgreSQL
+- MySQL
+- MariaDB
+- Oracle Database
+- Microsoft SQL Server
+
+Layanan Amazon RDS hadir dengan berbagai fitur, termasuk:
+- Automated patching (memperbaiki masalah dengan memperbarui program).
+- Backup (pencadangan).
+- Redundancy (memiliki lebih dari satu instance untuk berjaga-jaga jika instance utama gagal beroperasi).
+- Failover (instance lain akan mengambil alih saat instance utama mengalami kegagalan).
+- Disaster recovery (memulihkan pascabencana).
+- Encryption at rest (enkripsi data saat disimpan).
+- Encryption in-transit (enkripsi data saat sedang dikirim dan diterima).
+  
 ### Amazon DynamoDB
 ### Amazon Redshift
 ### AWS Database Migration Service
