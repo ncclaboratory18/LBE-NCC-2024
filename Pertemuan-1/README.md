@@ -9,6 +9,14 @@ Cloud merupakan simbol atau perumpamaan dari internet, sedangkan computing berar
 - **On-Premise** : Terkadang disebut sebagai private cloud,  di mana perusahaan harus memiliki pusat data (data center) sendiri. Ini berarti mereka perlu mengelola semua aspek seperti virtualisasi server, pemeliharaan  hardware, cabling, penyusunan rak, update software, dll.
 - **Hybrid** : Menggabungkan model penerapan cloud dan on-premise. Misalnya: Front-End (web layer) di-hosting di AWS. Back-End (API dan Database) dijalankan dari data center pribadi. Keduanya dihubungkan melalui jaringan pribadi: AWS VPN (via internet) atau AWS Direct Connect (via dedicated fiber cable).
 
+Secara umum model pada sistem cloud terbagi menjadi:
+![image](https://github.com/user-attachments/assets/1be7e0a1-f5e3-47de-8d56-82ca6651471d)
+
+- On-Premise : Terkadang disebut sebagai private cloud, user bertanggung jawab untuk memanajemen seluruh resource yang ada, seperti virtualisasi server, perawatan hardware, cabling, penyusunan rak, update software, dan data center sendiri.
+- IaaS : user tidak perlu memanajemen infrastruktur (termasuk hardware), karena telah disediakan cloud provider. Contohnya adalah ketika menyewa virtual machine pada cloud provider. Kita tidak perlu membeli hardware sendiri secara fisik, tetapi kita dapat memilih OS yang ingin digunakan maupun aplikasi yang ingin diinstall pada VM tersebut.
+- PaaS (Platform as a Service): Penyedia layanan mengelola infrastruktur, sistem operasi, dan middleware. user hanya perlu mengelola aplikasi dan data. 
+- SaaS: Penyedia layanan mengelola semuanya, mulai dari infrastruktur hingga aplikasi. User hanya perlu menggunakan aplikasi dan mengelola datanya.
+
 
 
 ## Pengenalan AWS
