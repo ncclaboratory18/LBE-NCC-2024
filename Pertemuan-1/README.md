@@ -4,7 +4,7 @@ Cloud merupakan simbol atau perumpamaan dari internet, sedangkan computing berar
 
 ## Model Cloud
 - **Cloud-based**: Penerapan yang sepenuhnya menggunakan teknologi cloud. Terdapat 2 opsi dalam membangun aplikasi cloud-based:
-  - Low-level infrastructure: Kita masih memerlukan staf IT Anda untuk mengelola server.
+  - Low-level infrastructure: Kita masih memerlukan staf IT untuk mengelola server.
   - Higher-level service: Dengan layanan serverless yang mampu mengurangi kebutuhan pengelolaan, arsitektur, dan scaling (penyesuaian kapasitas) pada infrastruktur. **serverless** disini memiliki arti bahwa server masih digunakan tetapi sepenuhnya dikelola oleh penyedia cloud, sehingga client hanya fokus pada penulisan dan menjalankan kode, tanpa perlu khawatir tentang infrastruktur di belakangnya.
 - **On-Premise** : Terkadang disebut sebagai private cloud,  di mana perusahaan harus memiliki pusat data (data center) sendiri. Ini berarti mereka perlu mengelola semua aspek seperti virtualisasi server, pemeliharaan  hardware, cabling, penyusunan rak, update software, dll.
 - **Hybrid** : Menggabungkan model penerapan cloud dan on-premise. Misalnya: Front-End (web layer) di-hosting di AWS. Back-End (API dan Database) dijalankan dari data center pribadi. Keduanya dihubungkan melalui jaringan pribadi: AWS VPN (via internet) atau AWS Direct Connect (via dedicated fiber cable).
