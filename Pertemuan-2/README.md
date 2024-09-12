@@ -1,4 +1,20 @@
-# Pertemuan 2 LBE NCC 2024 
+# Pertemuan 2 LBE NCC 2024
+
+1. [Network Service AWS](#network-service-aws)
+    a. [Fondasi Jaringan](#fondasi-jaringan)
+    b. [Jaringan Aplikasi](#jaringan-aplikasi)
+    c. [Jaringan Edge](#jaringan-edge)
+    d. [Konektivitas Hibrid](#konektivitas-hibrid)
+    e. [Keamanan Jaringan](#keamanan-jaringan)
+2. [Membangun Infrastruktur AWS Sederhana](#membangun-infrastruktur-aws-sederhana)
+    a. [Konfigurasi Jaringan](#konfigurasi-jaringan)
+    b. [Web Server](#web-server)
+    e. [Database](#database)
+3. [Deploy Aplikasi](deploy-aplikasi)
+    a. [Konfigurasi Aplikasi](#konfigurasi-aplikasi)
+    b. [Port Forwarding pada NGINX](#port-Forwarding-pada-nginx)
+    c. [Menjalankan Aplikasi sebagai Layanan dengan Systemd](#menjalankan-aplikasi-sebagai-layanan-dengan-systemd)
+
 ## Network Service AWS
 AWS (Amazon Web Services) menawarkan berbagai network service (layanan jaringan) yang direncang untuk  menyediakan infrastruktur jaringan yang aman, scalable, dan fleksibel bagi pengguna untuk menghubungkan, mengelola, dan mengamankan sumber daya mereka di cloud.
 ## Daftar Network Service AWS
@@ -92,3 +108,317 @@ AWS Network Firewall adalah firewall jaringan yang terkelola yang dapat digunaka
 #### 4. AWS Firewall Manager
 AWS Firewall Manager adalah layanan manajemen keamanan yang memungkinkan Anda mengonfigurasi dan mengelola aturan firewall secara terpusat di seluruh akun dan aplikasi Anda di AWS Organizations. Saat aplikasi baru dibuat, Firewall Manager mempermudah pengguna untuk membawa aplikasi dan sumber daya baru ke dalam kepatuhan dengan memberlakukan seperangkat aturan keamanan umum.
 ![image](https://github.com/user-attachments/assets/7c626b1c-92c8-4266-8433-d5ce90994a76)
+
+## Membangun Infrastruktur AWS Sederhana
+Setelah mengetahui berbagai macam layanan pada AWS, kita akan mencoba membuat infrastruktur AWS sederhana. Infrastruktur ini terdiri dari web server yang berada di public subnet dan database yang berada di private subnet. Agar database dapat diakses oleh web server, kita akan menambahkan route table yang mengatur lalu lintas jaringan antara public subnet dengan private subnet. Konfigurasi security group dan network ACL juga perlu dilakukan agar hak akses masing-masing resource sesuai dengan yang dibutuhkan. Struktur infrasturktur dapat lebih jelas dilihat pada ilustrasi berikut:<br>
+<center>
+<img src="assets/infrastructur-structure.png" alt="Structure of Infrastructure" height=500/>
+</center>
+
+### Konfigurasi Jaringan
+#### VPC
+Sebelum meluncurkan ec2 untuk web server dan rds, kita perlu membuat vpc beserta subnet yang diperlukan. Hal tersebut dapat dilakukan dengan mengakses VPC dashboard pada AWS console. Selanjutnya, anda dapat menekan tombol "Create VPC" seperti pada gambar berikut:<br>
+<center>
+<img src="assets/vpc-dashboard.png" alt="VPC Dashboard" width=500/>
+</center>
+
+Pada halaman pembuatan VPC, pilih "VPC and more" lalu masukkan nama project seperti pada layar berikut:<br>
+<center>
+<img src="assets/vpc-settings.png" alt="VPC Settings" width=500/>
+</center>
+
+Selanjutnya, pilih `2` pada jumlah availibility zone, jumlah public subnet, dan jumlah private subnet. Pilih `None` pada VPC endpoints serta biarkan pilihan lainnya.<br>
+<center>
+<img src="assets/vpc-az.png" alt="VPC AZ" width=500/>
+</center>
+
+#### Auto-assign Public IPv4 pada Public Subnet
+Setelah VPC terbuat, kita perlu mengaktifkan `auto-assign public IPv4` pada public subnet. Dengan begitu, web server yang nantinya diletakkan pada public subnet dapat diakses melalui internet.<br>
+<center>
+<img src="assets/auto-assing1.png" alt="VPC Settings" width=500/>
+</center>
+<center>
+<img src="assets/auto-assing2.png" alt="VPC Settings" width=500/>
+</center>
+<center>
+<img src="assets/auto-assign3.png" alt="VPC Settings" width=500/>
+</center>
+
+#### Mengatur route table utama
+Secara default, route table utama akan terbuat ketika kita membuat VPC. Namun, kita akan menjadikan `lbe-ncc-rtb-public` sebagai route table utama kita. Karenanya, pilih `lbe-ncc-rtb-private` pada pilihan route table lalu klik `Actions > Set main route table`.<br>
+<center>
+<img src="assets/main-rt.png" alt="Main Route Table" width=500/>
+</center>
+
+### Web Server
+Web server merupakan perangkat yang menyediakan konten web pada pengguna melalui internet. Kali ini, kita akan menggunakan `linux ec2` dan `Nginx` sebagai web server.
+
+#### Launch instance ec2
+Launch instance ec2 dapat dilakukan seperti pada pertemuan 1. Masukkan `webServer-ec2` sebagai nama instance dan pilih `Ubuntu` sebagai os image. Pada `Network Settings`, pilih vpc yang telah kita buat `lbe-ncc-vpc` dan `subnet public`.
+<center>
+<img src="assets/launch-ec2-1.png" alt="Launch ec2" width=500/>
+</center>
+
+Selain itu, buat pula security group untuk menerima koneksi `ssh` dan `http`.
+<center>
+<img src="assets/launch-ec2-2.png" alt="Launch ec2" width=500/>
+</center>
+
+Klik `launch instance` lalu tunggu hingga berhasil.
+<center>
+<img src="assets/launch-ec2-3.png" alt="Launch ec2" width=500/>
+</center>
+
+Jika telah berhasil, kita dapat melihat public IP web server dengan menekan instance terkait.
+<center>
+<img src="assets/launch-ec2-4.png" alt="Launch ec2" width=500/>
+</center>
+
+#### Mengakses ec2 dengan SSH
+Setelah ec2 terbuat, kita dapat mengaksesnya dengan menggunakan SSH. SSH (Secure Shell) merupakan salah satu protokol jaringan yang biasa digunakan untuk memberikan `command` pada remote server. Command dasar ssh adalah `ssh username@host`, dengan username merupakan nama pengguna pada server dan host merupakan hostname atau alamat IP dari server. Selain itu, kita perlu juga menambahkan private key dengan memberikan opsi `-i <nama-file>.pem`. Berikut cara mengakses web server melalui SSH (jangan lupa berpindah ke direktori yang sama dengan file `.pem`).
+<center>
+<img src="assets/ssh-1.png" alt="SSH" width=500/>
+</center>
+<center>
+<img src="assets/ssh-2.png" alt="SSH" width=500/>
+</center>
+
+#### Install dan menjalankan NGINX
+Meskipun telah membuka port HTTP, kita belum dapat mengakses apapun pada browser.
+<center>
+<img src="assets/nginx-1.png" alt="Nginx" width=500/>
+</center>
+
+Hal ini dikarenakan belum ada software yang menerima request pada port 80. Karenanya, kita membutuhkan Nginx sebagai web server yang akan menerima request dari pengguna. Untuk mengaktifkannya, kita perlu menginstal terlebih dahulu.
+<center>
+<img src="assets/nginx-2.png" alt="Nginx" width=500/>
+</center>
+
+Selanjutnya, kita dapat mengaktifkannya dengan command `sudo systemctl start nginx` dan memeriksa status nginx dengan `sudo systemctl status nginx`.
+<center>
+<img src="assets/nginx-3.png" alt="Nginx" width=500/>
+</center>
+
+Sekarang, kita dapat mengakses web pada browser seperti berikut:
+<center>
+<img src="assets/nginx-4.png" alt="Nginx" width=500/>
+</center>
+
+### Database
+Sebagian besar aplikasi web membutuhkan database untuk menyimpan data yang dibutuhkan. Pada kali ini, kita akan menggunakan database postgresql pada Amazon RDS.
+
+#### Mengatur Security Group
+Web server yang telah kita buat perlu berkomunikasi dengan database. Karenanya, kita perlu mengatur security group agar database dapat menerima koneksi postgresql (port 5432) dari web server, begitupun sebaliknya.
+Pertama, kita perlu membuat `ncc-db-sg` melalui menu `Security Groups` pada `VPC Dashboard`. Selanjutnya, klik `Create Security Group`.
+<center>
+<img src="assets/sg-1.png" alt="Security Group" width=500/>
+</center>
+
+Pada halaman `Create Security Group`, masukkan nama dan deskripsi yang sesuai. Selain itu, pilih juga VPC sesuai yang telah dibuat sebelumnya.
+<center>
+<img src="assets/sg-2.png" alt="Security Group" width=500/>
+</center>
+
+Selanjutnya, kita perlu menambahkan aturan pada `inbound rule` untuk mengirim dan menerima koneksi postgresql (port 5432) dari/ke web server (pilih source dan destination ke security group web server, `webServer-sg`).
+<center>
+<img src="assets/sg-3.png" alt="Security Group" width=500/>
+</center><center>
+<img src="assets/sg-4.png" alt="Security Group" width=500/>
+</center>
+
+Kita juga perlu mengubah security group pada web server agar dapat menerima koneksi postgresql seperti di atas.
+<center>
+<img src="assets/sg-5.png" alt="Security Group" width=500/>
+</center>
+<center>
+<img src="assets/sg-6.png" alt="Security Group" width=500/>
+</center>
+<center>
+<img src="assets/sg-7.png" alt="Security Group" width=500/>
+</center>
+
+#### Membuat DB Subnet Group
+Pada `Amazon RDS > Subnet Groups`, klik `Create DB Subnet Group`
+<center>
+<img src="assets/subnet-group-1.png" alt="Subnet Group" width=500/>
+</center>
+
+Pada halaman `create DB Subnet Group`, masukkan nama yang sesuai dan pilih VPC sesuai dengan VPC yang telah dibuat (ncc-vpc).
+<center>
+<img src="assets/subnet-group-2.png" alt="Subnet Group" width=500/>
+</center>
+
+Selanjutnya, pilih subnet yang sesuai dengan `private subnet`. Karena dropdown tidak menampilkan nama subnet, kalian bisa mencari id dari `private subnet`.
+<center>
+<img src="assets/subnet-group-3.png" alt="Subnet Group" width=500/>
+</center>
+<center>
+<img src="assets/subnet-group-4.png" alt="Subnet Group" width=500/>
+</center>
+
+Klik `create` dan subnet group berhasil dibuat.
+<center>
+<img src="assets/subnet-group-5.png" alt="Subnet Group" width=500/>
+</center>
+
+#### Launch RDS
+Pertama, akses Amazon RDS dashboard dan pilih menu `Database`. Selanjutnya, klik tombol `Create Database` yang terdapat di kanan atas sebelah `Restore from S3`.
+<center>
+<img src="assets/rds-1.png" alt="RDS" width=500/>
+</center>
+
+Pada halaman `Create Database`, pilih metode `Standard Create` dan opsi engine `PostgreSQL` (bukan Aurora postgreSQL compatible).
+<center>
+<img src="assets/rds-2.png" alt="RDS" width=500/>
+</center>
+
+Agar mendapatkan konfigurasi yang sesuai dengan ketentuan layanan gratis, pilih `Free Tier` pada menu `Templates`.
+<center>
+<img src="assets/rds-3.png" alt="RDS" width=500/>
+</center>
+
+![alt text](image-16.png)
+Masukkan nama instance, username database, dan password.
+<center>
+<img src="assets/rds-4.png" alt="RDS" width=500/>
+</center>
+
+Pada bagian `Connectivity`, pilih `Don't connect to an EC2 compute resource`. Selain itu, pilih vpc `lbe-ncc-vpc` dan subnet group `lbe-ncc-db-subnetgroup`
+<center>
+<img src="assets/rds-5.png" alt="RDS" width=500/>
+</center>
+
+Pilih `No` pada bagian `public access` dan `db-sg` (security group yang telah dibuat) pada security group.
+<center>
+<img src="assets/rds-6.png" alt="RDS" width=500/>
+</center>
+
+Klik `Create Database` dan database berhasil dibuat.
+<center>
+<img src="assets/rds-7.png" alt="RDS" width=500/>
+</center>
+
+#### Mengakses database dari web server
+Karena berada di 1 VPC dan kita telah mengatur security group, maka web server seharusnya dapat mengakses private IP database. Untuk mengakses, kita perlu menginstal postgresql pada web server.
+<center>
+<img src="assets/web-server-1.png" alt="Web Server" width=500/>
+</center>
+
+Selanjutnya, kita dapat mencoba akses ke database menggunakan `psql` sesuai dengan nama host/endpoint dan portnya.
+<center>
+<img src="assets/web-server-2.png" alt="Web Server" width=500/>
+</center>
+<center>
+<img src="assets/web-server-3.png" alt="Web Server" width=500/>
+</center>
+Selamat, anda telah berhasil membuat database di AWS dan mengaksesnya dari ec2.
+
+## Deploy Aplikasi
+Setelah berhasil membangun infrastruktur di AWS, kita akan mencoba melakukan deploy aplikasi. Aplikasi yang akan dideploy merupakan aplikasi CRUD sederhana dan dapat diclone dari https://github.com/arizki787/API-Project.
+<center>
+<img src="assets/deply-1.png" alt="Deploy" width=500/>
+</center>
+
+Pindah ke directory `API-Project` dan kita dapat melihat file-file yang terdapat pada direktori.
+<center>
+<img src="assets/deply-2.png" alt="Deploy" width=500/>
+</center>
+
+### Konfigurasi Aplikasi
+Aplikasi yang akan dideploy merupakan aplikasi nodejs sehingga kita perlu menginstall `nodejs` dan `npm` terlebih dahulu.
+<center>
+<img src="assets/node-1.png" alt="Node Js" width=500/>
+</center>
+<center>
+<img src="assets/node-2.png" alt="Node Js" width=500/>
+</center>
+
+Selanjutnya, buat database beserta tabelnya dengan terlebih dahulu mengakses postgresql di RDS. Buat database `school` dan tabel `student` dengan query berikut:
+```R
+CREATE DATABASE school;
+CREATE TABLE student (
+    sid VARCHAR(20),
+    sname VARCHAR(100),
+    uktstatus VARCHAR(15),
+    alamat VARCHAR(100),
+    email VARCHAR(100)
+);
+```
+Jika berhasil, maka akan terlihat seperti ini.
+<center>
+<img src="assets/konfig-1.png" alt="Konfigurasi" width=500/>
+</center>
+
+Kita juga akan membuat file `.env` untuk mendefinisikan `environment variable` yang diperlukan dengan template sebagai berikut. Jangan lupa untuk mengubah `RDS EndPoint`, `RDS User`, dan `RDS Password` sesuai dengan RDS yang telah kalian buat.
+```R
+DB_HOST=<RDS EndPoint>
+DB_USER=<RDS User>
+DB_PORT=5432
+DB_PASSWORD=<RDS Password>
+DB_NAME=school
+```
+Dengan menggunakan `nano`, kita dapat menulis file `.env` seperti berikut. 
+<center>
+<img src="assets/konfig-3.png" alt="Konfigurasi" width=500/>
+</center>
+<center>
+<img src="assets/konfig-2.png" alt="Konfigurasi" width=500/>
+</center>
+
+### Port Forwarding pada NGINX
+Sebenarnya, aplikasi di atas sudah bisa dijalankan dengan command `npm start`, maka server akan mendengar pada port 3000. Namun, pada praktiknya, tidak lazim kita membuka port secara custom. Biasanya port yang dibuka untuk akses api ada pada port 80 (http) atau 443 (https). Hal tersebut sesuai dengan aturan `security group` pada instance `webServer` yang hanya menerima koneksi ke port 22 (ssh) dan 80 (http). Oleh karena itu, kita perlu melakukan port forwarding dari port 80 ke port 3000 di mana aplikasi kita berjalan.
+1. Buat salinan konfigurasi server Nginx dengan command 
+```R
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/backup
+```
+2. Modifikasi file `/etc/nginx/sites-available/default` dengan menggunakan `nano` menjadi sebagai berikut:
+```R
+server {
+    listen 80;
+
+    location / {
+        proxy_set_header   X-Forwarded-For $remote_addr;
+        proxy_set_header   Host $http_host;
+        proxy_pass         "http://127.0.0.1:3000";
+    }
+}
+```
+3. Aktifkan konfigurasi dengan membuat symbolic link di folder `/etc/nginx/sites-enabled` dengan command berikut.
+```R
+sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+```
+4. Restart Nginx dan jalankan aplikasi
+```R
+sudo systemctl restart nginx
+node ./index.js
+```
+5. Akses web server pada browser, maka aplikasi kita telah dapat terlihat.
+<center>
+<img src="assets/port-forward.png" alt="Port Forwarding Result" width=500/>
+</center>
+
+### Menjalankan Aplikasi sebagai Layanan dengan Systemd
+Sebelumnya, kita perlu secara manual menjalankan aplikasi dengan command `node index.js` atau `npm start`. Namun, kita tidak mungkin dapat menjalankan server setiap saat. Oleh karena itu, kita perlu menjalankan aplikasi di latar belakang sebagai suatu layanan. Dengan demikian, aplikasi pada server dapat tetap berjalan dan dapat diakses kapanpun. Hal ini dapat dilakukan dengan mudah di linux dengan menggunakan `systemd`.
+1. Buat systemd file dengan `sudo nano /lib/systemd/system/server.service`, lalu isi sebagai berikut. Jangan lupa untuk mengubah `username` dan `path-to-project` sesuai dengan server masing-masing.
+```R
+[Unit]
+Description=Server service
+After=network.target
+
+[Service]
+Type=simple
+User=<username>
+ExecStart=/usr/bin/node <path-to-project>
+Restart=on-failure
+WorkingDirectory=<path-to-project>
+
+[Install]
+WantedBy=multi-user.target
+```
+2. Restart daemon dan jalankan service server. Periksa juga apakah layanan server telah berjalan.
+```R
+sudo systemctl daemon-reload
+sudo systemctl start server
+sudo systemctl status server
+```
+3. Akses kembali public ip. Kalian akan mendapati bahwa server berjalan walaupun kalian tidak mengeksekusi npm start pada root project. Dengan demikian, project kalian sudah berjalan pada background.
