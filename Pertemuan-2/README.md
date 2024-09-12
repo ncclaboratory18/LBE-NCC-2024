@@ -1,19 +1,19 @@
 # Pertemuan 2 LBE NCC 2024
 
 1. [Network Service AWS](#network-service-aws)
-    a. [Fondasi Jaringan](#fondasi-jaringan)
-    b. [Jaringan Aplikasi](#jaringan-aplikasi)
-    c. [Jaringan Edge](#jaringan-edge)
-    d. [Konektivitas Hibrid](#konektivitas-hibrid)
-    e. [Keamanan Jaringan](#keamanan-jaringan)
+    - [Fondasi Jaringan](#fondasi-jaringan)
+    - [Jaringan Aplikasi](#jaringan-aplikasi)
+    - [Jaringan Edge](#jaringan-edge)
+    - [Konektivitas Hibrid](#konektivitas-hibrid)
+    - [Keamanan Jaringan](#keamanan-jaringan)
 2. [Membangun Infrastruktur AWS Sederhana](#membangun-infrastruktur-aws-sederhana)
-    a. [Konfigurasi Jaringan](#konfigurasi-jaringan)
-    b. [Web Server](#web-server)
-    e. [Database](#database)
+    - [Konfigurasi Jaringan](#konfigurasi-jaringan)
+    - [Web Server](#web-server)
+    - [Database](#database)
 3. [Deploy Aplikasi](deploy-aplikasi)
-    a. [Konfigurasi Aplikasi](#konfigurasi-aplikasi)
-    b. [Port Forwarding pada NGINX](#port-Forwarding-pada-nginx)
-    c. [Menjalankan Aplikasi sebagai Layanan dengan Systemd](#menjalankan-aplikasi-sebagai-layanan-dengan-systemd)
+    - [Konfigurasi Aplikasi](#konfigurasi-aplikasi)
+    - [Port Forwarding pada NGINX](#port-Forwarding-pada-nginx)
+    - [Menjalankan Aplikasi sebagai Layanan dengan Systemd](#menjalankan-aplikasi-sebagai-layanan-dengan-systemd)
 
 ## Network Service AWS
 AWS (Amazon Web Services) menawarkan berbagai network service (layanan jaringan) yang direncang untuk  menyediakan infrastruktur jaringan yang aman, scalable, dan fleksibel bagi pengguna untuk menghubungkan, mengelola, dan mengamankan sumber daya mereka di cloud.
